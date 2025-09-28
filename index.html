@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIT Pathfinding Visualizer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            padding: 1rem;
+            transition: all 0.3s ease;
+            /* Added responsive padding */
+        }
+
+        /* Added responsive container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Enhanced theme variables with more themes and background images */
+        :root {
+            /* Dark Purple Theme (Default) */
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #1f1f23;
+            --bg-tertiary: #333;
+            --text-primary: #fafafa;
+            --text-secondary: #a1a1aa;
+            --accent-primary: #8b5cf6;
+            --accent-secondary: #7c3aed;
+            --accent-tertiary: rgba(139, 92, 246, 0.1);
+            --accent-border: rgba(139, 92, 246, 0.2);
+            --start-color: #10b981;
+            --end-color: #f43f5e;
+            --wall-color: #6b7280;
+            --path-color: #fbbf24;
+            --visited-color: rgba(139, 92, 246, 0.6);
+            --border-color: #333;
+            --hover-bg: rgba(255, 255, 255, 0.1);
+            --bg-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23ffffff" stroke-width="0.5" opacity="0.05"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+        }
+
+        [data-theme="ocean"] {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --accent-primary: #0ea5e9;
+            --accent-secondary: #0284c7;
+            --accent-tertiary: rgba(14, 165, 233, 0.1);
+            --accent-border: rgba(14, 165, 233, 0.2);
+            --start-color: #06b6d4;
+            --end-color: #ec4899;
+            --wall-color: #64748b;
+            --path-color: #f59e0b;
+            --visited-color: rgba(14, 165, 233, 0.6);
+            --border-color: #334155;
+            --hover-bg: rgba(14, 165, 233, 0.1);
+            --bg-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><radialGradient id="ocean"><stop offset="0%" stop-color="%230ea5e9" stop-opacity="0.1"/><stop offset="100%" stop-color="%230ea5e9" stop-opacity="0"/></radialGradient></defs><circle cx="20" cy="20" r="15" fill="url(%23ocean)"/><circle cx="80" cy="60" r="20" fill="url(%23ocean)"/><circle cx="40" cy="80" r="10" fill="url(%23ocean)"/></svg>');
+        }
+
+        [data-theme="forest"] {
+            --bg-primary: #0f1419;
+            --bg-secondary: #1a2332;
+            --bg-tertiary: #2d3748;
+            --text-primary: #f7fafc;
+            --text-secondary: #a0aec0;
+            --accent-primary: #48bb78;
+            --accent-secondary: #38a169;
+            --accent-tertiary: rgba(72, 187, 120, 0.1);
+            --accent-border: rgba(72, 187, 120, 0.2);
+            --start-color: #68d391;
+            --end-color: #fc8181;
+            --wall-color: #718096;
+            --path-color: #ed8936;
+            --visited-color: rgba(72, 187, 120, 0.6);
+            --border-color: #2d3748;
+            --hover-bg: rgba(72, 187, 120, 0.1);
+            --bg-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="leaves" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M10,5 Q15,10 10,15 Q5,10 10,5" fill="%2348bb78" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23leaves)"/></svg>');
+        }
+
+        [data-theme="sunset"] {
+            --bg-primary: #1a0b0b;
+            --bg-secondary: #2d1b1b;
+            --bg-tertiary: #4a2c2c;
+            --text-primary: #fef2f2;
+            --text-secondary: #fca5a5;
+            --accent-primary: #f56565;
+            --accent-secondary: #e53e3e;
+            --accent-tertiary: rgba(245, 101, 101, 0.1);
+            --accent-border: rgba(245, 101, 101, 0.2);
+            --start-color: #fd7f6f;
+            --end-color: #fbb6ce;
+            --wall-color: #9ca3af;
+            --path-color: #fbbf24;
+            --visited-color: rgba(245, 101, 101, 0.6);
+            --border-color: #4a2c2c;
+            --hover-bg: rgba(245, 101, 101, 0.1);
+            --bg-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><linearGradient id="sunset" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="%23f56565" stop-opacity="0.1"/><stop offset="100%" stop-color="%23fbbf24" stop-opacity="0.05"/></linearGradient></defs><rect width="100" height="100" fill="url(%23sunset)"/></svg>');
+        }
+
+        [data-theme="cyber"] {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --text-primary: #c9d1d9;
+            --text-secondary: #8b949e;
+            --accent-primary: #00d9ff;
+            --accent-secondary: #00b8d4;
+            --accent-tertiary: rgba(0, 217, 255, 0.1);
+            --accent-border: rgba(0, 217, 255, 0.2);
+            --start-color: #00ff88;
+            --end-color: #ff0080;
+            --wall-color: #6e7681;
+            --path-color: #ffff00;
+            --visited-color: rgba(0, 217, 255, 0.6);
+            --border-color: #21262d;
+            --hover-bg: rgba(0, 217, 255, 0.1);
+            --bg-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="circuit" width="25" height="25" patternUnits="userSpaceOnUse"><path d="M0,12.5 L25,12.5 M12.5,0 L12.5,25" stroke="%2300d9ff" stroke-width="0.5" opacity="0.1"/><circle cx="12.5" cy="12.5" r="2" fill="%2300d9ff" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23circuit)"/></svg>');
+        }
+
+        /* Added new color themes */
+        [data-theme="galaxy"] {
+            --bg-primary: #0c0c1e;
+            --bg-secondary: #1a1a3a;
+            --bg-tertiary: #2d2d5a;
+            --text-primary: #e6e6ff;
+            --text-secondary: #b3b3d9;
+            --accent-primary: #9d4edd;
+            --accent-secondary: #7b2cbf;
+            --accent-tertiary: rgba(157, 78, 221, 0.1);
+            --accent-border: rgba(157, 78, 221, 0.2);
+            --start-color: #c77dff;
+            --end-color: #ff006e;
+            --wall-color: #6c757d;
+            --path-color: #ffbe0b;
+            --visited-color: rgba(157, 78, 221, 0.6);
+            --border-color: #2d2d5a;
+            --hover-bg: rgba(157, 78, 221, 0.1);
+            --bg-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><radialGradient id="star"><stop offset="0%" stop-color="%23ffffff" stop-opacity="0.8"/><stop offset="100%" stop-color="%23ffffff" stop-opacity="0"/></radialGradient></defs><circle cx="10" cy="15" r="1" fill="url(%23star)"/><circle cx="85" cy="25" r="0.5" fill="url(%23star)"/><circle cx="30" cy="70" r="1.5" fill="url(%23star)"/><circle cx="70" cy="80" r="0.8" fill="url(%23star)"/><circle cx="50" cy="30" r="0.6" fill="url(%23star)"/></svg>');
+        }
+
+        [data-theme="aurora"] {
+            --bg-primary: #0a1628;
+            --bg-secondary: #1e3a5f;
+            --bg-tertiary: #2d5a87;
+            --text-primary: #f0f9ff;
+            --text-secondary: #bae6fd;
+            --accent-primary: #06b6d4;
+            --accent-secondary: #0891b2;
+            --accent-tertiary: rgba(6, 182, 212, 0.1);
+            --accent-border: rgba(6, 182, 212, 0.2);
+            --start-color: #67e8f9;
+            --end-color: #a78bfa;
+            --wall-color: #64748b;
+            --path-color: #34d399;
+            --visited-color: rgba(6, 182, 212, 0.6);
+            --border-color: #2d5a87;
+            --hover-bg: rgba(6, 182, 212, 0.1);
+            --bg-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><linearGradient id="aurora1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="%2306b6d4" stop-opacity="0.1"/><stop offset="50%" stop-color="%23a78bfa" stop-opacity="0.1"/><stop offset="100%" stop-color="%2334d399" stop-opacity="0.1"/></linearGradient></defs><path d="M0,30 Q25,20 50,30 T100,25 L100,35 Q75,45 50,35 T0,40 Z" fill="url(%23aurora1)"/></svg>');
+        }
+
+        [data-theme="volcanic"] {
+            --bg-primary: #1c0a00;
+            --bg-secondary: #3d1a00;
+            --bg-tertiary: #5c2e00;
+            --text-primary: #fff5f0;
+            --text-secondary: #ffccb3;
+            --accent-primary: #ff4500;
+            --accent-secondary: #dc2626;
+            --accent-tertiary: rgba(255, 69, 0, 0.1);
+            --accent-border: rgba(255, 69, 0, 0.2);
+            --start-color: #ff6b35;
+            --end-color: #ffd23f;
+            --wall-color: #78716c;
+            --path-color: #f59e0b;
+            --visited-color: rgba(255, 69, 0, 0.6);
+            --border-color: #5c2e00;
+            --hover-bg: rgba(255, 69, 0, 0.1);
+            --bg-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><radialGradient id="lava"><stop offset="0%" stop-color="%23ff4500" stop-opacity="0.2"/><stop offset="100%" stop-color="%23dc2626" stop-opacity="0"/></radialGradient></defs><ellipse cx="30" cy="70" rx="15" ry="8" fill="url(%23lava)"/><ellipse cx="70" cy="40" rx="20" ry="10" fill="url(%23lava)"/></svg>');
+        }
+
+        /* Added background image support */
+        body {
+            background: var(--bg-primary);
+            background-image: var(--bg-image);
+            background-size: 200px 200px;
+            background-attachment: fixed;
+            color: var(--text-primary);
+        }
+
+        /* Responsive VIT logo */
+        .vit-logo {
+            position: fixed;
+            top: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Responsive theme selector */
+        .theme-selector {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+        }
+
+
+        .theme-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .theme-button {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .theme-button:hover {
+            background: var(--hover-bg);
+        }
+
+        .theme-options {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 0.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            min-width: 200px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .theme-options.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .theme-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .theme-option:last-child {
+            border-bottom: none;
+        }
+
+        .theme-option:hover {
+            background: var(--hover-bg);
+        }
+
+        .theme-preview {
+            display: flex;
+            gap: 2px;
+        }
+
+        .theme-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+
+        .theme-name {
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+
+        /* Responsive background controls */
+        .background-controls {
+            position: fixed;
+            top: 4rem;
+            left: 1rem;
+            z-index: 1000;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            min-width: 250px;
+            max-width: 300px;
+        }
+
+
+        .bg-toggle {
+            position: fixed;
+            top: 4rem;
+            left: 1rem;
+            z-index: 1001;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .bg-toggle:hover {
+            background: var(--hover-bg);
+        }
+
+        .background-controls.hidden {
+            display: none;
+        }
+
+        /* Responsive header */
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            margin-top: 3rem;
+            padding: 0 1rem;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--accent-tertiary);
+            border: 1px solid var(--accent-border);
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+        }
+
+        .title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            background: linear-gradient(to right, var(--text-primary), var(--text-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            color: var(--text-secondary);
+            max-width: 32rem;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Responsive stats */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-badge {
+            padding: 0.5rem 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        /* Responsive layout */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        @media (max-width: 1024px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .background-controls {
+                position: relative;
+                top: auto;
+                left: auto;
+                margin-bottom: 1rem;
+            }
+            
+            .bg-toggle {
+                position: relative;
+                top: auto;
+                left: auto;
+                margin-bottom: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 0.5rem;
+            }
+            
+            .container {
+                padding: 0 0.5rem;
+            }
+            
+            .vit-logo {
+                font-size: 1rem;
+                padding: 0.4rem 0.8rem;
+            }
+            
+            .theme-selector {
+                top: 0.5rem;
+                right: 0.5rem;
+            }
+            
+            .header {
+                margin-top: 2.5rem;
+            }
+            
+            .stats {
+                gap: 0.5rem;
+            }
+            
+            .main-layout {
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .pathfinding-grid {
+                padding: 1rem;
+                gap: 1px;
+            }
+            
+            .grid-cell {
+                width: 14px;
+                height: 14px;
+            }
+            
+            .instruction-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .theme-options {
+                min-width: 180px;
+            }
+        }
+
+
+        /* Card Styles */
+        .card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 1.5rem 1.5rem 0;
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-description {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            width: 100%;
+            margin-bottom: 0.75rem;
+        }
+
+        .btn-primary {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: var(--accent-secondary);
+        }
+
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: var(--hover-bg);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-outline:hover:not(:disabled) {
+            background: var(--bg-secondary);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn.active {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        /* Enhanced grid styles with better visual effects */
+        .grid-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            overflow-x: auto;
+        }
+
+        .pathfinding-grid {
+            display: inline-grid;
+            gap: 2px;
+            background: var(--bg-tertiary);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 0 auto;
+            box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.2);
+            min-width: fit-content;
+        }
+
+        .grid-cell {
+            width: 18px;
+            height: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 3px;
+            position: relative;
+        }
+
+        .grid-cell:hover {
+            transform: scale(1.15);
+            z-index: 10;
+        }
+
+        .cell-empty {
+            background: var(--bg-secondary);
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .cell-empty:hover {
+            background: var(--hover-bg);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .cell-start {
+            background: linear-gradient(135deg, var(--start-color), #059669);
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            animation: pulse-glow 2s infinite;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .cell-end {
+            background: linear-gradient(135deg, var(--end-color), #dc2626);
+            box-shadow: 0 0 25px rgba(244, 63, 94, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            animation: pulse-glow 2s infinite;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .cell-wall {
+            background: linear-gradient(135deg, var(--wall-color), #4b5563);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cell-visited {
+            background: radial-gradient(circle, var(--visited-color), rgba(139, 92, 246, 0.3));
+            animation: visited-expand 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+        }
+
+        .cell-path {
+            background: linear-gradient(135deg, var(--path-color), #f59e0b);
+            box-shadow: 0 0 30px rgba(251, 191, 36, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            animation: path-reveal 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+        }
+
+        /* Legend */
+        .legend {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .legend-color {
+            width: 18px;
+            height: 18px;
+            border-radius: 3px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .legend-label {
+            font-size: 0.875rem;
+        }
+
+        /* Instructions */
+        .instructions {
+            margin-top: 2rem;
+        }
+
+        .instruction-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .instruction-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .instruction-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .step-number {
+            width: 24px;
+            height: 24px;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .instruction-title {
+            font-weight: 600;
+        }
+
+        .instruction-description {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Enhanced animations with more fluid motion */
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 25px rgba(139, 92, 246, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 35px rgba(139, 92, 246, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes path-reveal {
+            0% {
+                transform: scale(0.5) rotate(-180deg);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2) rotate(-90deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        @keyframes visited-expand {
+            0% {
+                transform: scale(0.2);
+                opacity: 0;
+                border-radius: 50%;
+            }
+            50% {
+                transform: scale(1.3);
+                opacity: 0.9;
+                border-radius: 25%;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+                border-radius: 3px;
+            }
+        }
+
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: var(--text-secondary);
+        }
+
+        /* Icons (using simple CSS shapes) */
+        .icon {
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+        }
+
+        .icon-zap::before {
+            content: "⚡";
+        }
+
+        .icon-play::before {
+            content: "▶️";
+        }
+
+        .icon-square::before {
+            content: "⏹";
+        }
+
+        .icon-refresh::before {
+            content: "↻";
+        }
+
+        .icon-blocks::before {
+            content: "⬛";
+        }
+
+        .icon-target::before {
+            content: "🎯";
+        }
+
+        .icon-palette::before {
+            content: "🎨";
+        }
+
+        .icon-chevron::before {
+            content: "▼";
+        }
+
+        /* Added responsive color controls */
+        .control-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .color-control {
+            margin-bottom: 1rem;
+        }
+
+        .color-control:last-child {
+            margin-bottom: 0;
+        }
+
+        .color-label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .color-input-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .color-picker {
+            width: 40px;
+            height: 32px;
+            border: 1px solid var(--border-color);
+            border-radius: 0.375rem;
+            cursor: pointer;
+            background: none;
+        }
+
+        .color-slider {
+            flex: 1;
+            height: 6px;
+            border-radius: 3px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .rgb-slider {
+            background: linear-gradient(to right, #000, #fff);
+        }
+
+        .hue-slider {
+            background: linear-gradient(to right, 
+                hsl(0, 100%, 50%), 
+                hsl(60, 100%, 50%), 
+                hsl(120, 100%, 50%), 
+                hsl(180, 100%, 50%), 
+                hsl(240, 100%, 50%), 
+                hsl(300, 100%, 50%), 
+                hsl(360, 100%, 50%)
+            );
+        }
+
+        .saturation-slider {
+            background: linear-gradient(to right, hsl(0, 0%, 50%), hsl(0, 100%, 50%));
+        }
+
+        .lightness-slider {
+            background: linear-gradient(to right, hsl(0, 100%, 0%), hsl(0, 100%, 50%), hsl(0, 100%, 100%));
+        }
+
+        .color-value {
+            font-family: monospace;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            min-width: 70px;
+            text-align: right;
+        }
+
+        .preset-colors {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .preset-color {
+            width: 32px;
+            height: 32px;
+            border-radius: 0.375rem;
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .preset-color:hover {
+            transform: scale(1.1);
+            border-color: var(--accent-primary);
+        }
+
+        .reset-bg-btn {
+            width: 100%;
+            padding: 0.5rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.375rem;
+            color: var(--text-primary);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 1rem;
+        }
+
+        .reset-bg-btn:hover {
+            background: var(--hover-bg);
+        }
+    </style>
+</head>
+<body data-theme="dark">
+     VIT logo 
+    <div class="vit-logo">
+        VIT
+    </div>
+
+     Background color controls toggle 
+    <div class="bg-toggle" id="bg-toggle">
+        <span class="icon icon-palette"></span>
+    </div>
+
+    <div class="background-controls hidden" id="background-controls">
+        <div class="control-header">
+            <span class="icon icon-palette"></span>
+            Background Color
+        </div>
+        
+        <div class="color-control">
+            <label class="color-label">Color Picker</label>
+            <div class="color-input-group">
+                <input type="color" class="color-picker" id="bg-color-picker" value="#0a0a0a">
+                <span class="color-value" id="bg-hex-value">#0a0a0a</span>
+            </div>
+        </div>
+
+        <div class="color-control">
+            <label class="color-label">Hue</label>
+            <div class="color-input-group">
+                <input type="range" class="color-slider hue-slider" id="hue-slider" min="0" max="360" value="0">
+                <span class="color-value" id="hue-value">0°</span>
+            </div>
+        </div>
+
+        <div class="color-control">
+            <label class="color-label">Saturation</label>
+            <div class="color-input-group">
+                <input type="range" class="color-slider saturation-slider" id="saturation-slider" min="0" max="100" value="0">
+                <span class="color-value" id="saturation-value">0%</span>
+            </div>
+        </div>
+
+        <div class="color-control">
+            <label class="color-label">Lightness</label>
+            <div class="color-input-group">
+                <input type="range" class="color-slider lightness-slider" id="lightness-slider" min="0" max="100" value="4">
+                <span class="color-value" id="lightness-value">4%</span>
+            </div>
+        </div>
+
+        <div class="preset-colors">
+            <div class="preset-color" style="background: #0a0a0a;" data-color="#0a0a0a"></div>
+            <div class="preset-color" style="background: #1a1a2e;" data-color="#1a1a2e"></div>
+            <div class="preset-color" style="background: #16213e;" data-color="#16213e"></div>
+            <div class="preset-color" style="background: #0f3460;" data-color="#0f3460"></div>
+            <div class="preset-color" style="background: #533483;" data-color="#533483"></div>
+            <div class="preset-color" style="background: #7209b7;" data-color="#7209b7"></div>
+            <div class="preset-color" style="background: #2d1b69;" data-color="#2d1b69"></div>
+            <div class="preset-color" style="background: #11001c;" data-color="#11001c"></div>
+            <div class="preset-color" style="background: #0d1421;" data-color="#0d1421"></div>
+            <div class="preset-color" style="background: #1e3a8a;" data-color="#1e3a8a"></div>
+            <div class="preset-color" style="background: #065f46;" data-color="#065f46"></div>
+            <div class="preset-color" style="background: #7c2d12;" data-color="#7c2d12"></div>
+        </div>
+
+        <button class="reset-bg-btn" id="reset-bg-btn">Reset to Theme Default</button>
+    </div>
+
+     Theme selector dropdown 
+    <div class="theme-selector">
+        <div class="theme-dropdown">
+            <button class="theme-button" id="theme-button">
+                <span class="icon icon-palette"></span>
+                <span id="current-theme">Dark Purple</span>
+                <span class="icon icon-chevron"></span>
+            </button>
+            <div class="theme-options" id="theme-options">
+                <div class="theme-option" data-theme="dark">
+                    <div class="theme-preview">
+                        <div class="theme-color" style="background: #8b5cf6;"></div>
+                        <div class="theme-color" style="background: #10b981;"></div>
+                        <div class="theme-color" style="background: #f43f5e;"></div>
+                        <div class="theme-color" style="background: #fbbf24;"></div>
+                    </div>
+                    <span class="theme-name">Dark Purple</span>
+                </div>
+                <div class="theme-option" data-theme="ocean">
+                    <div class="theme-preview">
+                        <div class="theme-color" style="background: #0ea5e9;"></div>
+                        <div class="theme-color" style="background: #06b6d4;"></div>
+                        <div class="theme-color" style="background: #ec4899;"></div>
+                        <div class="theme-color" style="background: #f59e0b;"></div>
+                    </div>
+                    <span class="theme-name">Ocean Blue</span>
+                </div>
+                <div class="theme-option" data-theme="forest">
+                    <div class="theme-preview">
+                        <div class="theme-color" style="background: #48bb78;"></div>
+                        <div class="theme-color" style="background: #68d391;"></div>
+                        <div class="theme-color" style="background: #fc8181;"></div>
+                        <div class="theme-color" style="background: #ed8936;"></div>
+                    </div>
+                    <span class="theme-name">Forest Green</span>
+                </div>
+                <div class="theme-option" data-theme="sunset">
+                    <div class="theme-preview">
+                        <div class="theme-color" style="background: #f56565;"></div>
+                        <div class="theme-color" style="background: #fd7f6f;"></div>
+                        <div class="theme-color" style="background: #fbb6ce;"></div>
+                        <div class="theme-color" style="background: #fbbf24;"></div>
+                    </div>
+                    <span class="theme-name">Sunset Red</span>
+                </div>
+                <div class="theme-option" data-theme="cyber">
+                    <div class="theme-preview">
+                        <div class="theme-color" style="background: #00d9ff;"></div>
+                        <div class="theme-color" style="background: #00ff88;"></div>
+                        <div class="theme-color" style="background: #ff0080;"></div>
+                        <div class="theme-color" style="background: #ffff00;"></div>
+                    </div>
+                    <span class="theme-name">Cyber Neon</span>
+                </div>
+                <div class="theme-option" data-theme="galaxy">
+                    <div class="theme-preview">
+                        <div class="theme-color" style="background: #9d4edd;"></div>
+                        <div class="theme-color" style="background: #c77dff;"></div>
+                        <div class="theme-color" style="background: #ff006e;"></div>
+                        <div class="theme-color" style="background: #ffbe0b;"></div>
+                    </div>
+                    <span class="theme-name">Galaxy Purple</span>
+                </div>
+                <div class="theme-option" data-theme="aurora">
+                    <div class="theme-preview">
+                        <div class="theme-color" style="background: #06b6d4;"></div>
+                        <div class="theme-color" style="background: #67e8f9;"></div>
+                        <div class="theme-color" style="background: #a78bfa;"></div>
+                        <div class="theme-color" style="background: #34d399;"></div>
+                    </div>
+                    <span class="theme-name">Aurora Borealis</span>
+                </div>
+                <div class="theme-option" data-theme="volcanic">
+                    <div class="theme-preview">
+                        <div class="theme-color" style="background: #ff4500;"></div>
+                        <div class="theme-color" style="background: #ff6b35;"></div>
+                        <div class="theme-color" style="background: #ffd23f;"></div>
+                        <div class="theme-color" style="background: #f59e0b;"></div>
+                    </div>
+                    <span class="theme-name">Volcanic Fire</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+         Header 
+        <div class="header">
+            <div class="badge">
+                <span class="icon icon-zap"></span>
+                Algorithm Visualizer
+            </div>
+            <h1 class="title">Pathfinding Visualizer</h1>
+            <p class="subtitle">
+                Watch Dijkstra's algorithm intelligently explore the grid to find the optimal path between two points
+            </p>
+        </div>
+
+         Stats 
+        <div class="stats" id="stats" style="display: none;">
+            <div class="stat-badge" id="nodes-visited">Nodes Visited: 0</div>
+            <div class="stat-badge" id="path-length" style="display: none;">Path Length: 0</div>
+        </div>
+
+        <div class="main-layout">
+             Controls 
+            <div>
+                 Algorithm Controls 
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <span class="icon icon-play"></span>
+                            Controls
+                        </div>
+                        <div class="card-description">Manage the pathfinding algorithm</div>
+                    </div>
+                    <div class="card-content">
+                        <button class="btn btn-primary" id="find-path-btn">
+                            <span class="icon icon-play"></span>
+                            Find Path
+                        </button>
+                        <button class="btn btn-secondary" id="clear-path-btn">
+                            <span class="icon icon-square"></span>
+                            Clear Path
+                        </button>
+                        <button class="btn btn-outline" id="reset-grid-btn">
+                            <span class="icon icon-refresh"></span>
+                            Reset Grid
+                        </button>
+                    </div>
+                </div>
+
+                 Draw Mode 
+                <div class="card" style="margin-top: 1.5rem;">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <span class="icon icon-blocks"></span>
+                            Draw Mode
+                        </div>
+                        <div class="card-description">Select what to place on the grid</div>
+                    </div>
+                    <div class="card-content">
+                        <button class="btn btn-outline active" id="wall-mode" data-mode="wall">
+                            <span class="icon icon-blocks"></span>
+                            Wall
+                        </button>
+                        <button class="btn btn-outline" id="start-mode" data-mode="start">
+                            <span class="icon icon-play"></span>
+                            Start
+                        </button>
+                        <button class="btn btn-outline" id="end-mode" data-mode="end">
+                            <span class="icon icon-target"></span>
+                            End
+                        </button>
+                    </div>
+                </div>
+
+                 Legend 
+                <div class="card" style="margin-top: 1.5rem;">
+                    <div class="card-header">
+                        <div class="card-title">Legend</div>
+                    </div>
+                    <div class="card-content">
+                        <div class="legend">
+                            <div class="legend-item">
+                                <div class="legend-color" id="legend-start"></div>
+                                <span class="legend-label">Start Point</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" id="legend-end"></div>
+                                <span class="legend-label">End Point</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" id="legend-wall"></div>
+                                <span class="legend-label">Wall</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" id="legend-path"></div>
+                                <span class="legend-label">Shortest Path</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" id="legend-visited"></div>
+                                <span class="legend-label">Explored</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+             Grid 
+            <div class="grid-container">
+                <div class="pathfinding-grid" id="grid"></div>
+            </div>
+        </div>
+
+         Instructions 
+        <div class="instructions">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">How to Use</div>
+                    <div class="card-description">Follow these steps to visualize pathfinding algorithms</div>
+                </div>
+                <div class="card-content">
+                    <div class="instruction-grid">
+                        <div class="instruction-item">
+                            <div class="instruction-header">
+                                <div class="step-number">1</div>
+                                <div class="instruction-title">Set Points</div>
+                            </div>
+                            <div class="instruction-description">
+                                Select 'Start' or 'End' mode and click on the grid to place your points.
+                            </div>
+                        </div>
+                        <div class="instruction-item">
+                            <div class="instruction-header">
+                                <div class="step-number">2</div>
+                                <div class="instruction-title">Draw Walls</div>
+                            </div>
+                            <div class="instruction-description">
+                                Select 'Wall' mode and click or drag to create obstacles and mazes.
+                            </div>
+                        </div>
+                        <div class="instruction-item">
+                            <div class="instruction-header">
+                                <div class="step-number">3</div>
+                                <div class="instruction-title">Find Path</div>
+                            </div>
+                            <div class="instruction-description">
+                                Click 'Find Path' to watch Dijkstra's algorithm explore the grid in real-time.
+                            </div>
+                        </div>
+                        <div class="instruction-item">
+                            <div class="instruction-header">
+                                <div class="step-number">4</div>
+                                <div class="instruction-title">Experiment</div>
+                            </div>
+                            <div class="instruction-description">
+                                Try different maze patterns and see how the algorithm adapts!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+         Footer 
+        <div class="footer">
+            <p>Made with ❤️ by Ridhi Kundu</p>
+        </div>
+    </div>
+
+    <script>
+        // Constants
+        const ROWS = 25;
+        const COLS = 35;
+
+        // State
+        let grid = [];
+        let startNode = { row: 12, col: 8 };
+        let endNode = { row: 12, col: 26 };
+        let currentMode = 'wall';
+        let isMouseDown = false;
+        let algorithmRunning = false;
+        let pathFound = false;
+        let nodesVisited = 0;
+        let pathLength = 0;
+
+        let currentBgColor = '#0a0a0a';
+        let currentHue = 0;
+        let currentSaturation = 0;
+        let currentLightness = 4;
+
+        // DOM Elements
+        const gridElement = document.getElementById('grid');
+        const findPathBtn = document.getElementById('find-path-btn');
+        const clearPathBtn = document.getElementById('clear-path-btn');
+        const resetGridBtn = document.getElementById('reset-grid-btn');
+        const statsElement = document.getElementById('stats');
+        const nodesVisitedElement = document.getElementById('nodes-visited');
+        const pathLengthElement = document.getElementById('path-length');
+
+        // Mode buttons
+        const modeButtons = document.querySelectorAll('[data-mode]');
+
+        const themeButton = document.getElementById('theme-button');
+        const themeOptions = document.getElementById('theme-options');
+        const currentThemeSpan = document.getElementById('current-theme');
+        const themeOptionElements = document.querySelectorAll('.theme-option');
+
+        const bgToggle = document.getElementById('bg-toggle');
+        const backgroundControls = document.getElementById('background-controls');
+        const bgColorPicker = document.getElementById('bg-color-picker');
+        const bgHexValue = document.getElementById('bg-hex-value');
+        const hueSlider = document.getElementById('hue-slider');
+        const saturationSlider = document.getElementById('saturation-slider');
+        const lightnessSlider = document.getElementById('lightness-slider');
+        const hueValue = document.getElementById('hue-value');
+        const saturationValue = document.getElementById('saturation-value');
+        const lightnessValue = document.getElementById('lightness-value');
+        const presetColors = document.querySelectorAll('.preset-color');
+        const resetBgBtn = document.getElementById('reset-bg-btn');
+
+        const themes = {
+            dark: 'Dark Purple',
+            ocean: 'Ocean Blue',
+            forest: 'Forest Green',
+            sunset: 'Sunset Red',
+            cyber: 'Cyber Neon',
+            galaxy: 'Galaxy Purple',
+            aurora: 'Aurora Borealis',
+            volcanic: 'Volcanic Fire'
+        };
+
+        function hexToHsl(hex) {
+            const r = parseInt(hex.slice(1, 3), 16) / 255;
+            const g = parseInt(hex.slice(3, 5), 16) / 255;
+            const b = parseInt(hex.slice(5, 7), 16) / 255;
+
+            const max = Math.max(r, g, b);
+            const min = Math.min(r, g, b);
+            let h, s, l = (max + min) / 2;
+
+            if (max === min) {
+                h = s = 0;
+            } else {
+                const d = max - min;
+                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                switch (max) {
+                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                    case g: h = (b - r) / d + 2; break;
+                    case b: h = (r - g) / d + 4; break;
+                }
+                h /= 6;
+            }
+
+            return [Math.round(h * 360), Math.round(s * 100), Math.round(l * 100)];
+        }
+
+        function hslToHex(h, s, l) {
+            l /= 100;
+            const a = s * Math.min(l, 1 - l) / 100;
+            const f = n => {
+                const k = (n + h / 30) % 12;
+                const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+                return Math.round(255 * color).toString(16).padStart(2, '0');
+            };
+            return `#${f(0)}${f(8)}${f(4)}`;
+        }
+
+        function updateBackgroundColor(color) {
+            document.body.style.background = color;
+            currentBgColor = color;
+            localStorage.setItem('pathfinder-bg-color', color);
+        }
+
+        function updateColorControls(hex) {
+            const [h, s, l] = hexToHsl(hex);
+            currentHue = h;
+            currentSaturation = s;
+            currentLightness = l;
+
+            bgColorPicker.value = hex;
+            bgHexValue.textContent = hex;
+            hueSlider.value = h;
+            saturationSlider.value = s;
+            lightnessSlider.value = l;
+            hueValue.textContent = h + '°';
+            saturationValue.textContent = s + '%';
+            lightnessValue.textContent = l + '%';
+
+            // Update slider backgrounds
+            saturationSlider.style.background = `linear-gradient(to right, hsl(${h}, 0%, 50%), hsl(${h}, 100%, 50%))`;
+            lightnessSlider.style.background = `linear-gradient(to right, hsl(${h}, 100%, 0%), hsl(${h}, 100%, 50%), hsl(${h}, 100%, 100%))`;
+        }
+
+        function resetBackgroundToTheme() {
+            const computedStyle = getComputedStyle(document.documentElement);
+            const themeColor = computedStyle.getPropertyValue('--bg-primary').trim();
+            updateBackgroundColor(themeColor);
+            updateColorControls(themeColor);
+        }
+
+        // Background control event listeners
+        bgToggle.addEventListener('click', () => {
+            backgroundControls.classList.toggle('hidden');
+        });
+
+        bgColorPicker.addEventListener('input', (e) => {
+            const color = e.target.value;
+            updateBackgroundColor(color);
+            updateColorControls(color);
+        });
+
+        hueSlider.addEventListener('input', (e) => {
+            currentHue = parseInt(e.target.value);
+            const newColor = hslToHex(currentHue, currentSaturation, currentLightness);
+            updateBackgroundColor(newColor);
+            updateColorControls(newColor);
+        });
+
+        saturationSlider.addEventListener('input', (e) => {
+            currentSaturation = parseInt(e.target.value);
+            const newColor = hslToHex(currentHue, currentSaturation, currentLightness);
+            updateBackgroundColor(newColor);
+            updateColorControls(newColor);
+        });
+
+        lightnessSlider.addEventListener('input', (e) => {
+            currentLightness = parseInt(e.target.value);
+            const newColor = hslToHex(currentHue, currentSaturation, currentLightness);
+            updateBackgroundColor(newColor);
+            updateColorControls(newColor);
+        });
+
+        presetColors.forEach(preset => {
+            preset.addEventListener('click', () => {
+                const color = preset.dataset.color;
+                updateBackgroundColor(color);
+                updateColorControls(color);
+            });
+        });
+
+        resetBgBtn.addEventListener('click', resetBackgroundToTheme);
+
+        // Close background controls when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!backgroundControls.contains(e.target) && !bgToggle.contains(e.target)) {
+                backgroundControls.classList.add('hidden');
+            }
+        });
+
+        // Theme functionality
+        function updateLegendColors() {
+            const computedStyle = getComputedStyle(document.documentElement);
+            document.getElementById('legend-start').style.background = computedStyle.getPropertyValue('--start-color');
+            document.getElementById('legend-end').style.background = computedStyle.getPropertyValue('--end-color');
+            document.getElementById('legend-wall').style.background = computedStyle.getPropertyValue('--wall-color');
+            document.getElementById('legend-path').style.background = computedStyle.getPropertyValue('--path-color');
+            document.getElementById('legend-visited').style.background = computedStyle.getPropertyValue('--visited-color');
+        }
+
+        function setTheme(themeName) {
+            document.body.setAttribute('data-theme', themeName);
+            currentThemeSpan.textContent = themes[themeName];
+            localStorage.setItem('pathfinder-theme', themeName);
+            updateLegendColors();
+        }
+
+        // Theme dropdown functionality
+        themeButton.addEventListener('click', () => {
+            themeOptions.classList.toggle('show');
+        });
+
+        themeOptionElements.forEach(option => {
+            option.addEventListener('click', () => {
+                const themeName = option.dataset.theme;
+                setTheme(themeName);
+                themeOptions.classList.remove('show');
+            });
+        });
+
+        // Close theme dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!themeButton.contains(e.target)) {
+                themeOptions.classList.remove('show');
+            }
+        });
+
+        // Load saved theme and background color
+        const savedTheme = localStorage.getItem('pathfinder-theme') || 'dark';
+        const savedBgColor = localStorage.getItem('pathfinder-bg-color');
+        
+        setTheme(savedTheme);
+        
+        if (savedBgColor) {
+            updateBackgroundColor(savedBgColor);
+            updateColorControls(savedBgColor);
+        } else {
+            updateColorControls(currentBgColor);
+        }
+
+        // Initialize
+        function initializeGrid() {
+            grid = [];
+            for (let row = 0; row < ROWS; row++) {
+                const currentRow = [];
+                for (let col = 0; col < COLS; col++) {
+                    currentRow.push({
+                        row,
+                        col,
+                        isStart: row === startNode.row && col === startNode.col,
+                        isEnd: row === endNode.row && col === endNode.col,
+                        isWall: false,
+                        isVisited: false,
+                        isPath: false,
+                        previousNode: null,
+                        distance: Infinity
+                    });
+                }
+                grid.push(currentRow);
+            }
+            renderGrid();
+            pathFound = false;
+            nodesVisited = 0;
+            pathLength = 0;
+            updateStats();
+            updateLegendColors();
+        }
+
+        function renderGrid() {
+            gridElement.innerHTML = '';
+            gridElement.style.gridTemplateColumns = `repeat(${COLS}, 1fr)`;
+            
+            for (let row = 0; row < ROWS; row++) {
+                for (let col = 0; col < COLS; col++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'grid-cell';
+                    cell.dataset.row = row;
+                    cell.dataset.col = col;
+                    
+                    updateCellClass(cell, grid[row][col]);
+                    
+                    cell.addEventListener('mousedown', () => {
+                        isMouseDown = true;
+                        handleCellInteraction(row, col);
+                    });
+                    
+                    cell.addEventListener('mouseenter', () => {
+                        if (isMouseDown) {
+                            handleCellInteraction(row, col);
+                        }
+                    });
+                    
+                    cell.addEventListener('mouseup', () => {
+                        isMouseDown = false;
+                    });
+                    
+                    gridElement.appendChild(cell);
+                }
+            }
+        }
+
+        function updateCellClass(cellElement, node) {
+            cellElement.className = 'grid-cell';
+            
+            if (node.isStart) {
+                cellElement.classList.add('cell-start');
+            } else if (node.isEnd) {
+                cellElement.classList.add('cell-end');
+            } else if (node.isPath) {
+                cellElement.classList.add('cell-path');
+            } else if (node.isVisited) {
+                cellElement.classList.add('cell-visited');
+            } else if (node.isWall) {
+                cellElement.classList.add('cell-wall');
+            } else {
+                cellElement.classList.add('cell-empty');
+            }
+        }
+
+        function handleCellInteraction(row, col) {
+            if (algorithmRunning) return;
+
+            const node = grid[row][col];
+
+            switch (currentMode) {
+                case 'wall':
+                    if (!node.isStart && !node.isEnd) {
+                        node.isWall = !node.isWall;
+                    }
+                    break;
+                case 'start':
+                    if (!node.isEnd && !node.isWall) {
+                        grid[startNode.row][startNode.col].isStart = false;
+                        node.isStart = true;
+                        startNode = { row, col };
+                    }
+                    break;
+                case 'end':
+                    if (!node.isStart && !node.isWall) {
+                        grid[endNode.row][endNode.col].isEnd = false;
+                        node.isEnd = true;
+                        endNode = { row, col };
+                    }
+                    break;
+            }
+
+            renderGrid();
+        }
+
+        function updateStats() {
+            if (pathFound || nodesVisited > 0) {
+                statsElement.style.display = 'flex';
+                nodesVisitedElement.textContent = `Nodes Visited: ${nodesVisited}`;
+                
+                if (pathFound) {
+                    pathLengthElement.style.display = 'block';
+                    pathLengthElement.textContent = `Path Length: ${pathLength}`;
+                } else {
+                    pathLengthElement.style.display = 'none';
+                }
+            } else {
+                statsElement.style.display = 'none';
+            }
+        }
+
+        async function dijkstra() {
+            algorithmRunning = true;
+            pathFound = false;
+            nodesVisited = 0;
+            pathLength = 0;
+
+            // Update button
+            findPathBtn.innerHTML = '<div class="spinner"></div> Finding Path...';
+            findPathBtn.disabled = true;
+
+            // Reset grid for algorithm
+            for (let row = 0; row < ROWS; row++) {
+                for (let col = 0; col < COLS; col++) {
+                    const node = grid[row][col];
+                    node.isVisited = false;
+                    node.isPath = false;
+                    node.distance = Infinity;
+                    node.previousNode = null;
+                }
+            }
+            grid[startNode.row][startNode.col].distance = 0;
+
+            renderGrid();
+            await sleep(100);
+
+            const getAllNodes = () => {
+                const nodes = [];
+                for (let row = 0; row < ROWS; row++) {
+                    for (let col = 0; col < COLS; col++) {
+                        nodes.push(grid[row][col]);
+                    }
+                }
+                return nodes;
+            };
+
+            const getNeighbors = (node) => {
+                const neighbors = [];
+                const { row, col } = node;
+                if (row > 0) neighbors.push(grid[row - 1][col]);
+                if (row < ROWS - 1) neighbors.push(grid[row + 1][col]);
+                if (col > 0) neighbors.push(grid[row][col - 1]);
+                if (col < COLS - 1) neighbors.push(grid[row][col + 1]);
+                return neighbors;
+            };
+
+            const unvisitedNodes = getAllNodes();
+            let visitedCount = 0;
+
+            while (unvisitedNodes.length > 0) {
+                unvisitedNodes.sort((a, b) => a.distance - b.distance);
+                const closestNode = unvisitedNodes.shift();
+
+                if (closestNode.distance === Infinity) break;
+
+                closestNode.isVisited = true;
+                visitedCount++;
+                nodesVisited = visitedCount;
+                updateStats();
+
+                // Update visual
+                const cellElement = document.querySelector(`[data-row="${closestNode.row}"][data-col="${closestNode.col}"]`);
+                updateCellClass(cellElement, closestNode);
+
+                await sleep(20);
+
+                if (closestNode.row === endNode.row && closestNode.col === endNode.col) {
+                    // Reconstruct path
+                    const path = [];
+                    let currentNode = closestNode;
+                    while (currentNode !== null) {
+                        path.unshift(currentNode);
+                        currentNode = currentNode.previousNode;
+                    }
+
+                    pathLength = path.length - 1;
+                    pathFound = true;
+                    updateStats();
+
+                    // Animate path
+                    for (let i = 0; i < path.length; i++) {
+                        path[i].isPath = true;
+                        const cellElement = document.querySelector(`[data-row="${path[i].row}"][data-col="${path[i].col}"]`);
+                        updateCellClass(cellElement, path[i]);
+                        await sleep(50);
+                    }
+
+                    break;
+                }
+
+                // Update neighbors
+                const neighbors = getNeighbors(closestNode);
+                for (const neighbor of neighbors) {
+                    if (neighbor.isWall) continue;
+                    const newDistance = closestNode.distance + 1;
+                    if (newDistance < neighbor.distance) {
+                        neighbor.distance = newDistance;
+                        neighbor.previousNode = closestNode;
+                    }
+                }
+            }
+
+            algorithmRunning = false;
+            findPathBtn.innerHTML = '<span class="icon icon-play"></span> Find Path';
+            findPathBtn.disabled = false;
+        }
+
+        function clearPath() {
+            if (algorithmRunning) return;
+            
+            for (let row = 0; row < ROWS; row++) {
+                for (let col = 0; col < COLS; col++) {
+                    const node = grid[row][col];
+                    node.isVisited = false;
+                    node.isPath = false;

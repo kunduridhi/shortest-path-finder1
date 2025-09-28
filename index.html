@@ -16,19 +16,16 @@
             min-height: 100vh;
             padding: 1rem;
             transition: all 0.3s ease;
-            /* Added responsive padding */
         }
 
-        /* Added responsive container */
         .container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 0 1rem;
         }
 
-        /* Enhanced theme variables with more themes and background images */
+        /* Enhanced theme variables */
         :root {
-            /* Dark Purple Theme (Default) */
             --bg-primary: #0a0a0a;
             --bg-secondary: #1f1f23;
             --bg-tertiary: #333;
@@ -65,7 +62,6 @@
             --visited-color: rgba(14, 165, 233, 0.6);
             --border-color: #334155;
             --hover-bg: rgba(14, 165, 233, 0.1);
-            --bg-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><radialGradient id="ocean"><stop offset="0%" stop-color="%230ea5e9" stop-opacity="0.1"/><stop offset="100%" stop-color="%230ea5e9" stop-opacity="0"/></radialGradient></defs><circle cx="20" cy="20" r="15" fill="url(%23ocean)"/><circle cx="80" cy="60" r="20" fill="url(%23ocean)"/><circle cx="40" cy="80" r="10" fill="url(%23ocean)"/></svg>');
         }
 
         [data-theme="forest"] {
@@ -85,7 +81,6 @@
             --visited-color: rgba(72, 187, 120, 0.6);
             --border-color: #2d3748;
             --hover-bg: rgba(72, 187, 120, 0.1);
-            --bg-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="leaves" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M10,5 Q15,10 10,15 Q5,10 10,5" fill="%2348bb78" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23leaves)"/></svg>');
         }
 
         [data-theme="sunset"] {
@@ -105,7 +100,6 @@
             --visited-color: rgba(245, 101, 101, 0.6);
             --border-color: #4a2c2c;
             --hover-bg: rgba(245, 101, 101, 0.1);
-            --bg-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><linearGradient id="sunset" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="%23f56565" stop-opacity="0.1"/><stop offset="100%" stop-color="%23fbbf24" stop-opacity="0.05"/></linearGradient></defs><rect width="100" height="100" fill="url(%23sunset)"/></svg>');
         }
 
         [data-theme="cyber"] {
@@ -125,10 +119,8 @@
             --visited-color: rgba(0, 217, 255, 0.6);
             --border-color: #21262d;
             --hover-bg: rgba(0, 217, 255, 0.1);
-            --bg-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="circuit" width="25" height="25" patternUnits="userSpaceOnUse"><path d="M0,12.5 L25,12.5 M12.5,0 L12.5,25" stroke="%2300d9ff" stroke-width="0.5" opacity="0.1"/><circle cx="12.5" cy="12.5" r="2" fill="%2300d9ff" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23circuit)"/></svg>');
         }
 
-        /* Added new color themes */
         [data-theme="galaxy"] {
             --bg-primary: #0c0c1e;
             --bg-secondary: #1a1a3a;
@@ -146,7 +138,6 @@
             --visited-color: rgba(157, 78, 221, 0.6);
             --border-color: #2d2d5a;
             --hover-bg: rgba(157, 78, 221, 0.1);
-            --bg-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><radialGradient id="star"><stop offset="0%" stop-color="%23ffffff" stop-opacity="0.8"/><stop offset="100%" stop-color="%23ffffff" stop-opacity="0"/></radialGradient></defs><circle cx="10" cy="15" r="1" fill="url(%23star)"/><circle cx="85" cy="25" r="0.5" fill="url(%23star)"/><circle cx="30" cy="70" r="1.5" fill="url(%23star)"/><circle cx="70" cy="80" r="0.8" fill="url(%23star)"/><circle cx="50" cy="30" r="0.6" fill="url(%23star)"/></svg>');
         }
 
         [data-theme="aurora"] {
@@ -166,7 +157,6 @@
             --visited-color: rgba(6, 182, 212, 0.6);
             --border-color: #2d5a87;
             --hover-bg: rgba(6, 182, 212, 0.1);
-            --bg-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><linearGradient id="aurora1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="%2306b6d4" stop-opacity="0.1"/><stop offset="50%" stop-color="%23a78bfa" stop-opacity="0.1"/><stop offset="100%" stop-color="%2334d399" stop-opacity="0.1"/></linearGradient></defs><path d="M0,30 Q25,20 50,30 T100,25 L100,35 Q75,45 50,35 T0,40 Z" fill="url(%23aurora1)"/></svg>');
         }
 
         [data-theme="volcanic"] {
@@ -186,10 +176,8 @@
             --visited-color: rgba(255, 69, 0, 0.6);
             --border-color: #5c2e00;
             --hover-bg: rgba(255, 69, 0, 0.1);
-            --bg-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><radialGradient id="lava"><stop offset="0%" stop-color="%23ff4500" stop-opacity="0.2"/><stop offset="100%" stop-color="%23dc2626" stop-opacity="0"/></radialGradient></defs><ellipse cx="30" cy="70" rx="15" ry="8" fill="url(%23lava)"/><ellipse cx="70" cy="40" rx="20" ry="10" fill="url(%23lava)"/></svg>');
         }
 
-        /* Added background image support */
         body {
             background: var(--bg-primary);
             background-image: var(--bg-image);
@@ -198,7 +186,7 @@
             color: var(--text-primary);
         }
 
-        /* Responsive VIT logo */
+        /* VIT logo */
         .vit-logo {
             position: fixed;
             top: 1rem;
@@ -217,14 +205,13 @@
             backdrop-filter: blur(10px);
         }
 
-        /* Responsive theme selector */
+        /* Theme selector */
         .theme-selector {
             position: fixed;
             top: 1rem;
             right: 1rem;
             z-index: 1000;
         }
-
 
         .theme-dropdown {
             position: relative;
@@ -308,7 +295,7 @@
             font-size: 0.875rem;
         }
 
-        /* Responsive background controls */
+        /* Background controls */
         .background-controls {
             position: fixed;
             top: 4rem;
@@ -321,7 +308,6 @@
             min-width: 250px;
             max-width: 300px;
         }
-
 
         .bg-toggle {
             position: fixed;
@@ -344,7 +330,482 @@
             display: none;
         }
 
-        /* Responsive header */
+        /* Enhanced Responsive Design for All Devices */
+        
+        /* Extra small devices (phones, 320px and up) */
+        @media (max-width: 480px) {
+            body {
+                padding: 0.25rem;
+                font-size: 14px;
+            }
+            
+            .container {
+                padding: 0 0.25rem;
+            }
+            
+            .vit-logo {
+                font-size: 0.9rem;
+                padding: 0.3rem 0.6rem;
+                top: 0.5rem;
+            }
+            
+            .theme-selector {
+                top: 0.5rem;
+                right: 0.5rem;
+            }
+            
+            .theme-button {
+                padding: 0.4rem 0.6rem;
+                font-size: 0.7rem;
+            }
+            
+            .theme-options {
+                min-width: 160px;
+                right: -20px;
+            }
+            
+            .bg-toggle {
+                top: 3rem;
+                left: 0.5rem;
+                padding: 0.4rem;
+            }
+            
+            .background-controls {
+                top: 3rem;
+                left: 0.5rem;
+                min-width: 200px;
+                max-width: calc(100vw - 1rem);
+                padding: 0.75rem;
+            }
+            
+            .header {
+                margin-top: 2rem;
+                margin-bottom: 1.5rem;
+                padding: 0 0.5rem;
+            }
+            
+            .title {
+                font-size: 1.8rem;
+                margin-bottom: 0.75rem;
+            }
+            
+            .subtitle {
+                font-size: 0.9rem;
+                line-height: 1.5;
+            }
+            
+            .badge {
+                font-size: 0.7rem;
+                padding: 0.4rem 0.8rem;
+            }
+            
+            .main-layout {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .card {
+                border-radius: 0.5rem;
+            }
+            
+            .card-header {
+                padding: 1rem 1rem 0;
+            }
+            
+            .card-content {
+                padding: 1rem;
+            }
+            
+            .card-title {
+                font-size: 1rem;
+            }
+            
+            .btn {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.8rem;
+                margin-bottom: 0.6rem;
+            }
+            
+            .pathfinding-grid {
+                padding: 0.75rem;
+                gap: 1px;
+                border-radius: 8px;
+            }
+            
+            .grid-cell {
+                width: 12px;
+                height: 12px;
+                border-radius: 2px;
+            }
+            
+            .grid-container {
+                padding: 0.75rem;
+                border-radius: 0.5rem;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .legend-color {
+                width: 14px;
+                height: 14px;
+            }
+            
+            .legend-label {
+                font-size: 0.8rem;
+            }
+            
+            .instruction-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .stats {
+                gap: 0.5rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .stat-badge {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.7rem;
+            }
+            
+            .preset-colors {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 0.4rem;
+            }
+            
+            .preset-color {
+                width: 28px;
+                height: 28px;
+            }
+            
+            .color-control {
+                margin-bottom: 0.8rem;
+            }
+            
+            .color-picker {
+                width: 35px;
+                height: 28px;
+            }
+        }
+        
+        /* Small devices (landscape phones, 481px and up) */
+        @media (min-width: 481px) and (max-width: 768px) {
+            body {
+                padding: 0.5rem;
+            }
+            
+            .container {
+                padding: 0 0.5rem;
+            }
+            
+            .vit-logo {
+                font-size: 1rem;
+                padding: 0.4rem 0.8rem;
+            }
+            
+            .theme-selector {
+                top: 0.75rem;
+                right: 0.75rem;
+            }
+            
+            .bg-toggle {
+                top: 3.5rem;
+                left: 0.75rem;
+            }
+            
+            .background-controls {
+                top: 3.5rem;
+                left: 0.75rem;
+                min-width: 220px;
+                max-width: calc(100vw - 1.5rem);
+            }
+            
+            .header {
+                margin-top: 2.5rem;
+                margin-bottom: 1.75rem;
+            }
+            
+            .title {
+                font-size: 2.2rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .main-layout {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+            }
+            
+            .pathfinding-grid {
+                padding: 1rem;
+                gap: 1.5px;
+            }
+            
+            .grid-cell {
+                width: 14px;
+                height: 14px;
+            }
+            
+            .instruction-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.25rem;
+            }
+        }
+        
+        /* Medium devices (tablets, 769px and up) */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .header {
+                margin-top: 3rem;
+            }
+            
+            .main-layout {
+                grid-template-columns: 300px 1fr;
+                gap: 1.5rem;
+            }
+            
+            .background-controls {
+                position: relative;
+                top: auto;
+                left: auto;
+                margin-bottom: 1.5rem;
+                min-width: 100%;
+            }
+            
+            .bg-toggle {
+                position: relative;
+                top: auto;
+                left: auto;
+                margin-bottom: 1rem;
+                width: 100%;
+                text-align: center;
+            }
+            
+            .pathfinding-grid {
+                padding: 1.25rem;
+                gap: 2px;
+            }
+            
+            .grid-cell {
+                width: 16px;
+                height: 16px;
+            }
+            
+            .instruction-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        /* Large devices (desktops, 1025px and up) */
+        @media (min-width: 1025px) and (max-width: 1440px) {
+            .container {
+                max-width: 1200px;
+                padding: 0 1.5rem;
+            }
+            
+            .main-layout {
+                grid-template-columns: 320px 1fr;
+                gap: 2rem;
+            }
+            
+            .pathfinding-grid {
+                padding: 1.5rem;
+                gap: 2px;
+            }
+            
+            .grid-cell {
+                width: 18px;
+                height: 18px;
+            }
+        }
+        
+        /* Extra large devices (large desktops, 1441px and up) */
+        @media (min-width: 1441px) {
+            .container {
+                max-width: 1400px;
+                padding: 0 2rem;
+            }
+            
+            .main-layout {
+                grid-template-columns: 350px 1fr;
+                gap: 2.5rem;
+            }
+            
+            .pathfinding-grid {
+                padding: 2rem;
+                gap: 3px;
+            }
+            
+            .grid-cell {
+                width: 20px;
+                height: 20px;
+            }
+            
+            .title {
+                font-size: 3.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.3rem;
+            }
+        }
+        
+        /* Enhanced touch and mobile interaction improvements */
+        
+        /* Touch-friendly interactions */
+        @media (hover: none) and (pointer: coarse) {
+            .grid-cell:hover {
+                transform: none;
+            }
+            
+            .grid-cell:active {
+                transform: scale(1.1);
+                transition: transform 0.1s;
+            }
+            
+            .btn:hover {
+                transform: none;
+            }
+            
+            .btn:active {
+                transform: translateY(1px);
+            }
+            
+            .preset-color:hover {
+                transform: none;
+            }
+            
+            .preset-color:active {
+                transform: scale(1.05);
+            }
+        }
+        
+        /* Improved landscape orientation support */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .vit-logo {
+                position: relative;
+                transform: none;
+                margin: 0 auto 1rem;
+                display: block;
+                width: fit-content;
+            }
+            
+            .theme-selector {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-bottom: 1rem;
+                text-align: center;
+            }
+            
+            .bg-toggle {
+                position: relative;
+                top: auto;
+                left: auto;
+                margin-bottom: 1rem;
+                width: 100%;
+                text-align: center;
+            }
+            
+            .background-controls {
+                position: relative;
+                top: auto;
+                left: auto;
+                margin-bottom: 1rem;
+                width: 100%;
+            }
+            
+            .header {
+                margin-top: 1rem;
+                margin-bottom: 1rem;
+            }
+            
+            .title {
+                font-size: 1.5rem;
+            }
+            
+            .subtitle {
+                font-size: 0.9rem;
+            }
+            
+            .main-layout {
+                grid-template-columns: 250px 1fr;
+                gap: 1rem;
+            }
+            
+            .pathfinding-grid {
+                padding: 0.75rem;
+            }
+            
+            .grid-cell {
+                width: 12px;
+                height: 12px;
+            }
+        }
+        
+        /* High DPI display optimizations */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .grid-cell {
+                border-width: 0.5px;
+            }
+            
+            .card {
+                border-width: 0.5px;
+            }
+            
+            .btn {
+                border-width: 0.5px;
+            }
+        }
+        
+        /* Accessibility improvements for reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            
+            .grid-cell:hover {
+                transform: none;
+            }
+            
+            .btn:hover {
+                transform: none;
+            }
+        }
+        
+        /* Print styles */
+        @media print {
+            .vit-logo,
+            .theme-selector,
+            .background-controls,
+            .bg-toggle {
+                display: none;
+            }
+            
+            body {
+                background: white !important;
+                color: black !important;
+            }
+            
+            .card {
+                border: 1px solid #ccc;
+                break-inside: avoid;
+            }
+            
+            .pathfinding-grid {
+                break-inside: avoid;
+            }
+        }
+
+        /* Header */
         .header {
             text-align: center;
             margin-bottom: 2rem;
@@ -384,7 +845,7 @@
             line-height: 1.6;
         }
 
-        /* Responsive stats */
+        /* Stats */
         .stats {
             display: flex;
             justify-content: center;
@@ -402,87 +863,13 @@
             font-weight: 500;
         }
 
-        /* Responsive layout */
+        /* Layout */
         .main-layout {
             display: grid;
             grid-template-columns: 280px 1fr;
             gap: 1.5rem;
             align-items: start;
         }
-
-        @media (max-width: 1024px) {
-            .main-layout {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-            
-            .background-controls {
-                position: relative;
-                top: auto;
-                left: auto;
-                margin-bottom: 1rem;
-            }
-            
-            .bg-toggle {
-                position: relative;
-                top: auto;
-                left: auto;
-                margin-bottom: 1rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            body {
-                padding: 0.5rem;
-            }
-            
-            .container {
-                padding: 0 0.5rem;
-            }
-            
-            .vit-logo {
-                font-size: 1rem;
-                padding: 0.4rem 0.8rem;
-            }
-            
-            .theme-selector {
-                top: 0.5rem;
-                right: 0.5rem;
-            }
-            
-            .header {
-                margin-top: 2.5rem;
-            }
-            
-            .stats {
-                gap: 0.5rem;
-            }
-            
-            .main-layout {
-                gap: 1rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .pathfinding-grid {
-                padding: 1rem;
-                gap: 1px;
-            }
-            
-            .grid-cell {
-                width: 14px;
-                height: 14px;
-            }
-            
-            .instruction-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .theme-options {
-                min-width: 180px;
-            }
-        }
-
 
         /* Card Styles */
         .card {
@@ -539,6 +926,7 @@
 
         .btn-primary:hover:not(:disabled) {
             background: var(--accent-secondary);
+            transform: translateY(-1px);
         }
 
         .btn-secondary {
@@ -549,6 +937,7 @@
 
         .btn-secondary:hover:not(:disabled) {
             background: var(--hover-bg);
+            transform: translateY(-1px);
         }
 
         .btn-outline {
@@ -559,19 +948,22 @@
 
         .btn-outline:hover:not(:disabled) {
             background: var(--bg-secondary);
+            transform: translateY(-1px);
         }
 
         .btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
+            transform: none !important;
         }
 
         .btn.active {
             background: var(--accent-primary);
             color: white;
+            border-color: var(--accent-primary);
         }
 
-        /* Enhanced grid styles with better visual effects */
+        /* Grid styles */
         .grid-container {
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
@@ -721,7 +1113,7 @@
             line-height: 1.5;
         }
 
-        /* Enhanced animations with more fluid motion */
+        /* Animations */
         @keyframes pulse-glow {
             0%, 100% {
                 box-shadow: 0 0 25px rgba(139, 92, 246, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
@@ -787,46 +1179,23 @@
             color: var(--text-secondary);
         }
 
-        /* Icons (using simple CSS shapes) */
+        /* Icons */
         .icon {
             width: 16px;
             height: 16px;
             display: inline-block;
         }
 
-        .icon-zap::before {
-            content: "⚡";
-        }
+        .icon-zap::before { content: "⚡"; }
+        .icon-play::before { content: "▶"; }
+        .icon-square::before { content: "⏹"; }
+        .icon-refresh::before { content: "↻"; }
+        .icon-blocks::before { content: "⬛"; }
+        .icon-target::before { content: "🎯"; }
+        .icon-palette::before { content: "🎨"; }
+        .icon-chevron::before { content: "▼"; }
 
-        .icon-play::before {
-            content: "▶️";
-        }
-
-        .icon-square::before {
-            content: "⏹";
-        }
-
-        .icon-refresh::before {
-            content: "↻";
-        }
-
-        .icon-blocks::before {
-            content: "⬛";
-        }
-
-        .icon-target::before {
-            content: "🎯";
-        }
-
-        .icon-palette::before {
-            content: "🎨";
-        }
-
-        .icon-chevron::before {
-            content: "▼";
-        }
-
-        /* Added responsive color controls */
+        /* Color controls */
         .control-header {
             display: flex;
             align-items: center;
@@ -873,10 +1242,6 @@
             border-radius: 3px;
             outline: none;
             cursor: pointer;
-        }
-
-        .rgb-slider {
-            background: linear-gradient(to right, #000, #fff);
         }
 
         .hue-slider {
@@ -947,11 +1312,11 @@
     </style>
 </head>
 <body data-theme="dark">
+    
     <div class="vit-logo">
         VIT
     </div>
 
-    
     <div class="bg-toggle" id="bg-toggle">
         <span class="icon icon-palette"></span>
     </div>
@@ -1012,7 +1377,7 @@
         <button class="reset-bg-btn" id="reset-bg-btn">Reset to Theme Default</button>
     </div>
 
-     Theme selector dropdown 
+    <!-- Theme selector dropdown -->
     <div class="theme-selector">
         <div class="theme-dropdown">
             <button class="theme-button" id="theme-button">
@@ -1097,7 +1462,7 @@
         </div>
     </div>
 
-    
+    <!-- Beautiful wallpaper background overlay -->
     <div style="
         position: fixed;
         top: 0;
@@ -1111,7 +1476,7 @@
     "></div>
 
     <div class="container">
-         Header 
+        <!-- Header -->
         <div class="header">
             <div class="badge">
                 <span class="icon icon-zap"></span>
@@ -1123,16 +1488,16 @@
             </p>
         </div>
 
-         Stats 
+        <!-- Stats -->
         <div class="stats" id="stats" style="display: none;">
             <div class="stat-badge" id="nodes-visited">Nodes Visited: 0</div>
             <div class="stat-badge" id="path-length" style="display: none;">Path Length: 0</div>
         </div>
 
         <div class="main-layout">
-             Controls 
+            <!-- Controls -->
             <div>
-                 Algorithm Controls 
+                <!-- Algorithm Controls -->
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">
@@ -1157,7 +1522,7 @@
                     </div>
                 </div>
 
-                 Draw Mode 
+                <!-- Draw Mode -->
                 <div class="card" style="margin-top: 1.5rem;">
                     <div class="card-header">
                         <div class="card-title">
@@ -1182,7 +1547,7 @@
                     </div>
                 </div>
 
-                 Legend 
+                <!-- Legend -->
                 <div class="card" style="margin-top: 1.5rem;">
                     <div class="card-header">
                         <div class="card-title">Legend</div>
@@ -1214,13 +1579,13 @@
                 </div>
             </div>
 
-             Grid 
+            <!-- Grid -->
             <div class="grid-container">
                 <div class="pathfinding-grid" id="grid"></div>
             </div>
         </div>
 
-         Instructions 
+        <!-- Instructions -->
         <div class="instructions">
             <div class="card">
                 <div class="card-header">
@@ -1270,13 +1635,15 @@
             </div>
         </div>
 
-         Footer 
+        <!-- Footer -->
         <div class="footer">
-            <p>Made with ❤️ by Ridhi Kundu</p>
+            <p>Made with ❤️ by VIT Students</p>
         </div>
     </div>
 
     <script>
+        console.log("[v0] Initializing pathfinding visualizer...");
+
         // Constants
         const ROWS = 25;
         const COLS = 35;
@@ -1297,7 +1664,7 @@
         let currentSaturation = 0;
         let currentLightness = 4;
 
-        // DOM Elements
+        // DOM Elements - Fixed element selection
         const gridElement = document.getElementById('grid');
         const findPathBtn = document.getElementById('find-path-btn');
         const clearPathBtn = document.getElementById('clear-path-btn');
@@ -1307,13 +1674,18 @@
         const pathLengthElement = document.getElementById('path-length');
 
         // Mode buttons
-        const modeButtons = document.querySelectorAll('[data-mode]');
+        const wallModeBtn = document.getElementById('wall-mode');
+        const startModeBtn = document.getElementById('start-mode');
+        const endModeBtn = document.getElementById('end-mode');
+        const modeButtons = [wallModeBtn, startModeBtn, endModeBtn];
 
+        // Theme elements
         const themeButton = document.getElementById('theme-button');
         const themeOptions = document.getElementById('theme-options');
         const currentThemeSpan = document.getElementById('current-theme');
         const themeOptionElements = document.querySelectorAll('.theme-option');
 
+        // Background control elements
         const bgToggle = document.getElementById('bg-toggle');
         const backgroundControls = document.getElementById('background-controls');
         const bgColorPicker = document.getElementById('bg-color-picker');
@@ -1338,6 +1710,7 @@
             volcanic: 'Volcanic Fire'
         };
 
+        // Utility functions
         function hexToHsl(hex) {
             const r = parseInt(hex.slice(1, 3), 16) / 255;
             const g = parseInt(hex.slice(3, 5), 16) / 255;
@@ -1407,107 +1780,127 @@
             updateColorControls(themeColor);
         }
 
-        // Background control event listeners
-        bgToggle.addEventListener('click', () => {
-            backgroundControls.classList.toggle('hidden');
-        });
+        // Background control event listeners - Fixed event handling
+        if (bgToggle) {
+            bgToggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                backgroundControls.classList.toggle('hidden');
+                console.log("[v0] Background controls toggled");
+            });
+        }
 
-        bgColorPicker.addEventListener('input', (e) => {
-            const color = e.target.value;
-            updateBackgroundColor(color);
-            updateColorControls(color);
-        });
+        if (bgColorPicker) {
+            bgColorPicker.addEventListener('input', (e) => {
+                const color = e.target.value;
+                updateBackgroundColor(color);
+                updateColorControls(color);
+                console.log("[v0] Background color updated:", color);
+            });
+        }
 
-        hueSlider.addEventListener('input', (e) => {
-            currentHue = parseInt(e.target.value);
-            const newColor = hslToHex(currentHue, currentSaturation, currentLightness);
-            updateBackgroundColor(newColor);
-            updateColorControls(newColor);
-        });
+        if (hueSlider) {
+            hueSlider.addEventListener('input', (e) => {
+                currentHue = parseInt(e.target.value);
+                const newColor = hslToHex(currentHue, currentSaturation, currentLightness);
+                updateBackgroundColor(newColor);
+                updateColorControls(newColor);
+            });
+        }
 
-        saturationSlider.addEventListener('input', (e) => {
-            currentSaturation = parseInt(e.target.value);
-            const newColor = hslToHex(currentHue, currentSaturation, currentLightness);
-            updateBackgroundColor(newColor);
-            updateColorControls(newColor);
-        });
+        if (saturationSlider) {
+            saturationSlider.addEventListener('input', (e) => {
+                currentSaturation = parseInt(e.target.value);
+                const newColor = hslToHex(currentHue, currentSaturation, currentLightness);
+                updateBackgroundColor(newColor);
+                updateColorControls(newColor);
+            });
+        }
 
-        lightnessSlider.addEventListener('input', (e) => {
-            currentLightness = parseInt(e.target.value);
-            const newColor = hslToHex(currentHue, currentSaturation, currentLightness);
-            updateBackgroundColor(newColor);
-            updateColorControls(newColor);
-        });
+        if (lightnessSlider) {
+            lightnessSlider.addEventListener('input', (e) => {
+                currentLightness = parseInt(e.target.value);
+                const newColor = hslToHex(currentHue, currentSaturation, currentLightness);
+                updateBackgroundColor(newColor);
+                updateColorControls(newColor);
+            });
+        }
 
         presetColors.forEach(preset => {
-            preset.addEventListener('click', () => {
+            preset.addEventListener('click', (e) => {
+                e.preventDefault();
                 const color = preset.dataset.color;
                 updateBackgroundColor(color);
                 updateColorControls(color);
+                console.log("[v0] Preset color selected:", color);
             });
         });
 
-        resetBgBtn.addEventListener('click', resetBackgroundToTheme);
+        if (resetBgBtn) {
+            resetBgBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                resetBackgroundToTheme();
+                console.log("[v0] Background reset to theme default");
+            });
+        }
 
-        // Close background controls when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!backgroundControls.contains(e.target) && !bgToggle.contains(e.target)) {
-                backgroundControls.classList.add('hidden');
-            }
-        });
-
-        // Theme functionality
+        // Theme functionality - Fixed theme switching
         function updateLegendColors() {
             const computedStyle = getComputedStyle(document.documentElement);
-            document.getElementById('legend-start').style.background = computedStyle.getPropertyValue('--start-color');
-            document.getElementById('legend-end').style.background = computedStyle.getPropertyValue('--end-color');
-            document.getElementById('legend-wall').style.background = computedStyle.getPropertyValue('--wall-color');
-            document.getElementById('legend-path').style.background = computedStyle.getPropertyValue('--path-color');
-            document.getElementById('legend-visited').style.background = computedStyle.getPropertyValue('--visited-color');
+            const legendStart = document.getElementById('legend-start');
+            const legendEnd = document.getElementById('legend-end');
+            const legendWall = document.getElementById('legend-wall');
+            const legendPath = document.getElementById('legend-path');
+            const legendVisited = document.getElementById('legend-visited');
+
+            if (legendStart) legendStart.style.background = computedStyle.getPropertyValue('--start-color');
+            if (legendEnd) legendEnd.style.background = computedStyle.getPropertyValue('--end-color');
+            if (legendWall) legendWall.style.background = computedStyle.getPropertyValue('--wall-color');
+            if (legendPath) legendPath.style.background = computedStyle.getPropertyValue('--path-color');
+            if (legendVisited) legendVisited.style.background = computedStyle.getPropertyValue('--visited-color');
         }
 
         function setTheme(themeName) {
             document.body.setAttribute('data-theme', themeName);
-            currentThemeSpan.textContent = themes[themeName];
+            if (currentThemeSpan) currentThemeSpan.textContent = themes[themeName];
             localStorage.setItem('pathfinder-theme', themeName);
             updateLegendColors();
+            console.log("[v0] Theme changed to:", themeName);
         }
 
-        // Theme dropdown functionality
-        themeButton.addEventListener('click', () => {
-            themeOptions.classList.toggle('show');
-        });
+        // Theme dropdown functionality - Fixed event handling
+        if (themeButton) {
+            themeButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                themeOptions.classList.toggle('show');
+                console.log("[v0] Theme dropdown toggled");
+            });
+        }
 
         themeOptionElements.forEach(option => {
-            option.addEventListener('click', () => {
+            option.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 const themeName = option.dataset.theme;
                 setTheme(themeName);
                 themeOptions.classList.remove('show');
             });
         });
 
-        // Close theme dropdown when clicking outside
+        // Close dropdowns when clicking outside
         document.addEventListener('click', (e) => {
-            if (!themeButton.contains(e.target)) {
+            if (themeButton && !themeButton.contains(e.target)) {
                 themeOptions.classList.remove('show');
+            }
+            if (bgToggle && backgroundControls && !backgroundControls.contains(e.target) && !bgToggle.contains(e.target)) {
+                backgroundControls.classList.add('hidden');
             }
         });
 
-        // Load saved theme and background color
-        const savedTheme = localStorage.getItem('pathfinder-theme') || 'dark';
-        const savedBgColor = localStorage.getItem('pathfinder-bg-color');
-        
-        setTheme(savedTheme);
-        
-        if (savedBgColor) {
-            updateBackgroundColor(savedBgColor);
-            updateColorControls(savedBgColor);
-        } else {
-            updateColorControls(currentBgColor);
-        }
-
-        // Initialize
+        // Grid functionality - Fixed grid initialization and interaction
         function initializeGrid() {
+            console.log("[v0] Initializing grid...");
             grid = [];
             for (let row = 0; row < ROWS; row++) {
                 const currentRow = [];
@@ -1535,6 +1928,8 @@
         }
 
         function renderGrid() {
+            if (!gridElement) return;
+            
             gridElement.innerHTML = '';
             gridElement.style.gridTemplateColumns = `repeat(${COLS}, 1fr)`;
             
@@ -1547,12 +1942,14 @@
                     
                     updateCellClass(cell, grid[row][col]);
                     
-                    cell.addEventListener('mousedown', () => {
+                    // Fixed mouse event handling
+                    cell.addEventListener('mousedown', (e) => {
+                        e.preventDefault();
                         isMouseDown = true;
                         handleCellInteraction(row, col);
                     });
                     
-                    cell.addEventListener('mouseenter', () => {
+                    cell.addEventListener('mouseenter', (e) => {
                         if (isMouseDown) {
                             handleCellInteraction(row, col);
                         }
@@ -1616,6 +2013,8 @@
         }
 
         function updateStats() {
+            if (!statsElement || !nodesVisitedElement || !pathLengthElement) return;
+            
             if (pathFound || nodesVisited > 0) {
                 statsElement.style.display = 'flex';
                 nodesVisitedElement.textContent = `Nodes Visited: ${nodesVisited}`;
@@ -1631,15 +2030,19 @@
             }
         }
 
+        // Dijkstra's algorithm - Fixed algorithm implementation
         async function dijkstra() {
+            console.log("[v0] Starting Dijkstra's algorithm...");
             algorithmRunning = true;
             pathFound = false;
             nodesVisited = 0;
             pathLength = 0;
 
             // Update button
-            findPathBtn.innerHTML = '<div class="spinner"></div> Finding Path...';
-            findPathBtn.disabled = true;
+            if (findPathBtn) {
+                findPathBtn.innerHTML = '<div class="spinner"></div> Finding Path...';
+                findPathBtn.disabled = true;
+            }
 
             // Reset grid for algorithm
             for (let row = 0; row < ROWS; row++) {
@@ -1692,7 +2095,7 @@
 
                 // Update visual
                 const cellElement = document.querySelector(`[data-row="${closestNode.row}"][data-col="${closestNode.col}"]`);
-                updateCellClass(cellElement, closestNode);
+                if (cellElement) updateCellClass(cellElement, closestNode);
 
                 await sleep(20);
 
@@ -1713,7 +2116,7 @@
                     for (let i = 0; i < path.length; i++) {
                         path[i].isPath = true;
                         const cellElement = document.querySelector(`[data-row="${path[i].row}"][data-col="${path[i].col}"]`);
-                        updateCellClass(cellElement, path[i]);
+                        if (cellElement) updateCellClass(cellElement, path[i]);
                         await sleep(50);
                     }
 
@@ -1733,4 +2136,106 @@
             }
 
             algorithmRunning = false;
-            findPathBtn.innerHTML = '<span class="icon icon-play"></span> Find Path';
+            if (findPathBtn) {
+                findPathBtn.innerHTML = '<span class="icon icon-play"></span> Find Path';
+                findPathBtn.disabled = false;
+            }
+            console.log("[v0] Algorithm completed");
+        }
+
+        function clearPath() {
+            if (algorithmRunning) return;
+            
+            console.log("[v0] Clearing path...");
+            for (let row = 0; row < ROWS; row++) {
+                for (let col = 0; col < COLS; col++) {
+                    const node = grid[row][col];
+                    node.isVisited = false;
+                    node.isPath = false;
+                    node.distance = Infinity;
+                    node.previousNode = null;
+                }
+            }
+            
+            pathFound = false;
+            nodesVisited = 0;
+            pathLength = 0;
+            updateStats();
+            renderGrid();
+        }
+
+        function resetGrid() {
+            if (algorithmRunning) return;
+            console.log("[v0] Resetting grid...");
+            startNode = { row: 12, col: 8 };
+            endNode = { row: 12, col: 26 };
+            initializeGrid();
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        // Event Listeners - Fixed button event handling
+        if (findPathBtn) {
+            findPathBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                dijkstra();
+            });
+        }
+
+        if (clearPathBtn) {
+            clearPathBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                clearPath();
+            });
+        }
+
+        if (resetGridBtn) {
+            resetGridBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                resetGrid();
+            });
+        }
+
+        // Mode selection - Fixed mode button handling
+        modeButtons.forEach(button => {
+            if (button) {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    modeButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    currentMode = button.dataset.mode;
+                    console.log("[v0] Mode changed to:", currentMode);
+                });
+            }
+        });
+
+        // Grid mouse events
+        if (gridElement) {
+            gridElement.addEventListener('contextmenu', (e) => e.preventDefault());
+            gridElement.addEventListener('mouseleave', () => {
+                isMouseDown = false;
+            });
+        }
+
+        // Load saved settings
+        const savedTheme = localStorage.getItem('pathfinder-theme') || 'dark';
+        const savedBgColor = localStorage.getItem('pathfinder-bg-color');
+        
+        setTheme(savedTheme);
+        
+        if (savedBgColor) {
+            updateBackgroundColor(savedBgColor);
+            updateColorControls(savedBgColor);
+        } else {
+            updateColorControls(currentBgColor);
+        }
+
+        // Initialize the application
+        console.log("[v0] Starting application initialization...");
+        initializeGrid();
+        console.log("[v0] Application initialized successfully!");
+    </script>
+</body>
+</html>
